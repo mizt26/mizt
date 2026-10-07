@@ -49,9 +49,9 @@
 
     /* Frosted glass backdrop blur */
     .glass-panel {
-      background: rgba(14, 15, 18, 0.85);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(14, 15, 18, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .glass-card {
@@ -70,17 +70,31 @@
       outline: 2px solid #c8a364;
       background: rgba(200, 163, 100, 0.1);
     }
+
+    .active-outline {
+      outline: 2px solid #c8a364 !important;
+      box-shadow: 0 0 0 4px rgba(200, 163, 100, 0.2);
+    }
+
+    /* Modal Animation */
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-modal {
+      animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
   </style>
 </head>
 
 <body class="bg-[#070707] text-[#e0e0e0] font-sans antialiased selection:bg-[#c8a364] selection:text-black overflow-x-hidden min-h-screen">
 
   <!-- ================= TOP HEADER ================= -->
-  <header class="fixed top-0 left-0 w-full z-40 bg-[#070707]/80 backdrop-blur-md border-b border-white/5 transition-all">
+  <header class="fixed top-0 left-0 w-full z-40 bg-[#070707]/85 backdrop-blur-md border-b border-white/5 transition-all">
     <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
       
-      <!-- Secret Door to Admin: Click Logo -->
-      <button id="logoLoginTrigger" class="flex items-center gap-3 group text-left focus:outline-none" title="Mar Ivanios Zoology Team">
+      <!-- Logo Trigger (Click this to trigger admin portal login) -->
+      <button id="logoLoginTrigger" class="flex items-center gap-3 group text-left focus:outline-none" title="Click to access MIZT Admin Portal">
         <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5 group-hover:border-[#c8a364] group-hover:scale-105 transition-all">
           <svg class="w-5 h-5 text-white group-hover:text-[#c8a364] transition-colors" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 10.5c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-6 2c1.38 0 2.5-1.12 2.5-2.5S7.38 7.5 6 7.5 3.5 8.62 3.5 10s1.12 2.5 2.5 2.5zm12 0c1.38 0 2.5-1.12 2.5-2.5S19.38 7.5 18 7.5s-2.5 1.12-2.5 2.5 1.12 2.5 2.5 2.5zm-9.35 4.54c-.64.44-.95 1.25-.76 2.01.29 1.15 1.48 2.45 3.11 2.45s2.82-1.3 3.11-2.45c.19-.76-.12-1.57-.76-2.01-1.35-.93-3.35-.93-4.7 0z"/>
@@ -94,7 +108,7 @@
         </div>
       </button>
 
-      <!-- Nav links -->
+      <!-- Nav Links -->
       <nav class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-neutral-400">
         <a href="#home" class="hover:text-white transition-colors">Home</a>
         <a href="#about" class="hover:text-white transition-colors">About</a>
@@ -104,10 +118,10 @@
         <a href="#contact" class="hover:text-white transition-colors">Contact</a>
       </nav>
 
-      <!-- Right Action Button -->
+      <!-- Right Action Area -->
       <div class="flex items-center gap-3">
-        <button id="adminBarToggleBtn" class="hidden text-xs px-3.5 py-1.5 rounded-full border border-[#c8a364] text-[#c8a364] hover:bg-[#c8a364]/10 transition-all font-mono">
-          ⚙ CMS Panel
+        <button id="adminBarToggleBtn" class="hidden text-xs px-3.5 py-1.5 rounded-full border border-[#c8a364] text-[#c8a364] hover:bg-[#c8a364]/10 transition-all font-mono font-bold">
+          ⚙ ADMIN PANEL
         </button>
         <a href="#contact" class="text-xs uppercase tracking-widest font-semibold px-4 py-2 border border-white/20 hover:border-[#c8a364] hover:text-[#c8a364] transition-all rounded-full">
           Join Us &rarr;
@@ -116,14 +130,15 @@
     </div>
   </header>
 
-  <!-- ================= MAIN SECTIONS ================= -->
+  <!-- ================= MAIN EDITABLE CANVAS ================= -->
   <main id="sectionsContainer" class="pt-20">
 
     <!-- HERO SECTION -->
-    <section id="home" class="relative min-h-[92vh] flex items-center justify-between px-6 max-w-7xl mx-auto overflow-hidden">
+    <section id="home" class="draggable-section relative min-h-[92vh] flex items-center justify-between px-6 max-w-7xl mx-auto overflow-hidden" data-section-id="sec_hero">
+      
       <!-- Background Wildlife Leopard -->
       <div class="absolute right-0 top-0 w-full lg:w-[65%] h-full pointer-events-none z-0 opacity-45 lg:opacity-75">
-        <img id="heroImageElement" src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1600&q=80" alt="Predator Gaze" class="w-full h-full object-cover object-center [mask-image:linear-gradient(to_left,black_60%,transparent_100%)] filter contrast-125" />
+        <img id="img_hero" data-media-id="hero_leopard" src="https://images.unsplash.com/photo-1561731216-c3a4d99437d5?auto=format&fit=crop&w=1600&q=80" alt="Predator Gaze" class="w-full h-full object-cover object-center [mask-image:linear-gradient(to_left,black_60%,transparent_100%)] filter contrast-125 transition-all" />
       </div>
 
       <!-- Hero Content -->
@@ -162,7 +177,7 @@
     </section>
 
     <!-- SECTION 01: ABOUT US -->
-    <section id="about" class="py-28 border-t border-white/5 relative max-w-7xl mx-auto px-6">
+    <section id="about" class="draggable-section py-28 border-t border-white/5 relative max-w-7xl mx-auto px-6" data-section-id="sec_about">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
         <!-- Text & Numbers -->
@@ -200,19 +215,19 @@
         <!-- 4-Photo Mosaic Grid -->
         <div class="lg:col-span-7 grid grid-cols-2 gap-4">
           <div class="space-y-4">
-            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/3] group">
-              <img src="https://images.unsplash.com/photo-1579165466791-788226ab77b6?auto=format&fit=crop&w=800&q=80" alt="Microscopy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/3] group relative">
+              <img id="img_lab" data-media-id="about_lab" src="https://images.unsplash.com/photo-1579165466791-788226ab77b6?auto=format&fit=crop&w=800&q=80" alt="Microscopy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
             </div>
-            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/5] group">
-              <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=800&q=80" alt="Elephants" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter grayscale contrast-125"/>
+            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/5] group relative">
+              <img id="img_elephants" data-media-id="about_elephants" src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=800&q=80" alt="Elephants" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter grayscale contrast-125"/>
             </div>
           </div>
           <div class="space-y-4 pt-8">
-            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/5] group">
-              <img src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?auto=format&fit=crop&w=800&q=80" alt="Tree frog" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/5] group relative">
+              <img id="img_frog" data-media-id="about_frog" src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?auto=format&fit=crop&w=800&q=80" alt="Tree frog" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
             </div>
-            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/3] group">
-              <img src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=800&q=80" alt="Marine Mammals" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-125"/>
+            <div class="overflow-hidden rounded-xl border border-white/10 aspect-[4/3] group relative">
+              <img id="img_marine_field" data-media-id="about_marine" src="https://images.unsplash.com/photo-1535083783855-76ae62b2914e?auto=format&fit=crop&w=800&q=80" alt="Marine Mammals" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 filter contrast-125"/>
             </div>
           </div>
         </div>
@@ -221,7 +236,7 @@
     </section>
 
     <!-- SECTION 02: RESEARCH -->
-    <section id="research" class="py-28 border-t border-white/5 max-w-7xl mx-auto px-6">
+    <section id="research" class="draggable-section py-28 border-t border-white/5 max-w-7xl mx-auto px-6" data-section-id="sec_research">
       <div class="max-w-xl mb-12">
         <span class="text-xs font-mono uppercase tracking-[0.25em] text-[#c8a364]" data-cms-key="res_sub">02 / RESEARCH</span>
         <h2 class="font-cinzel text-4xl sm:text-5xl font-bold text-white tracking-wide mt-2" data-cms-key="res_title">
@@ -237,7 +252,7 @@
         
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/60 transition-all group flex flex-col justify-between">
           <div class="overflow-hidden rounded-xl aspect-[4/5] mb-4">
-            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=600&q=80" alt="Lion Wildlife" class="w-full h-full object-cover group-hover:scale-105 transition-all filter grayscale contrast-125"/>
+            <img id="img_res_wildlife" data-media-id="res_wildlife" src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=600&q=80" alt="Lion Wildlife" class="w-full h-full object-cover group-hover:scale-105 transition-all filter grayscale contrast-125"/>
           </div>
           <div>
             <h3 class="font-cinzel text-lg font-bold text-white">WILDLIFE</h3>
@@ -248,7 +263,7 @@
 
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/60 transition-all group flex flex-col justify-between">
           <div class="overflow-hidden rounded-xl aspect-[4/5] mb-4">
-            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Deep Marine Jellyfish" class="w-full h-full object-cover group-hover:scale-105 transition-all"/>
+            <img id="img_res_marine" data-media-id="res_marine" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="Deep Marine Jellyfish" class="w-full h-full object-cover group-hover:scale-105 transition-all"/>
           </div>
           <div>
             <h3 class="font-cinzel text-lg font-bold text-white">MARINE</h3>
@@ -259,7 +274,7 @@
 
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/60 transition-all group flex flex-col justify-between">
           <div class="overflow-hidden rounded-xl aspect-[4/5] mb-4">
-            <img src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=600&q=80" alt="Genetics DNA" class="w-full h-full object-cover group-hover:scale-105 transition-all filter hue-rotate-180"/>
+            <img id="img_res_genetics" data-media-id="res_genetics" src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=600&q=80" alt="Genetics DNA" class="w-full h-full object-cover group-hover:scale-105 transition-all filter hue-rotate-180"/>
           </div>
           <div>
             <h3 class="font-cinzel text-lg font-bold text-white">GENETICS</h3>
@@ -270,7 +285,7 @@
 
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/60 transition-all group flex flex-col justify-between">
           <div class="overflow-hidden rounded-xl aspect-[4/5] mb-4">
-            <img src="https://images.unsplash.com/photo-1508873696983-2df5293cbdaf?auto=format&fit=crop&w=600&q=80" alt="Conservation Chameleon" class="w-full h-full object-cover group-hover:scale-105 transition-all"/>
+            <img id="img_res_conservation" data-media-id="res_conservation" src="https://images.unsplash.com/photo-1508873696983-2df5293cbdaf?auto=format&fit=crop&w=600&q=80" alt="Conservation Chameleon" class="w-full h-full object-cover group-hover:scale-105 transition-all"/>
           </div>
           <div>
             <h3 class="font-cinzel text-lg font-bold text-white">CONSERVATION</h3>
@@ -283,7 +298,7 @@
     </section>
 
     <!-- SECTION 03: EVENTS -->
-    <section id="events" class="py-28 border-t border-white/5 max-w-7xl mx-auto px-6">
+    <section id="events" class="draggable-section py-28 border-t border-white/5 max-w-7xl mx-auto px-6" data-section-id="sec_events">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
           <span class="text-xs font-mono uppercase tracking-[0.25em] text-[#c8a364]">03 / EVENTS</span>
@@ -299,7 +314,7 @@
         
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/40 transition-all">
           <div class="aspect-[16/10] overflow-hidden rounded-xl mb-4">
-            <img src="https://images.unsplash.com/photo-1518467166778-b88f373ffec7?auto=format&fit=crop&w=600&q=80" alt="Sea Turtle" class="w-full h-full object-cover"/>
+            <img id="img_ev_turtle" data-media-id="ev_turtle" src="https://images.unsplash.com/photo-1518467166778-b88f373ffec7?auto=format&fit=crop&w=600&q=80" alt="Sea Turtle" class="w-full h-full object-cover"/>
           </div>
           <div class="text-[11px] font-mono font-bold text-[#c8a364] uppercase tracking-wider">APR 26</div>
           <h4 class="font-cinzel text-base font-bold text-white mt-1">Wildlife Conservation</h4>
@@ -308,7 +323,7 @@
 
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/40 transition-all">
           <div class="aspect-[16/10] overflow-hidden rounded-xl mb-4">
-            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Microscopy" class="w-full h-full object-cover"/>
+            <img id="img_ev_lab" data-media-id="ev_lab" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Microscopy" class="w-full h-full object-cover"/>
           </div>
           <div class="text-[11px] font-mono font-bold text-[#c8a364] uppercase tracking-wider">MAY 03</div>
           <h4 class="font-cinzel text-base font-bold text-white mt-1">Microscopy Workshop</h4>
@@ -317,7 +332,7 @@
 
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/40 transition-all">
           <div class="aspect-[16/10] overflow-hidden rounded-xl mb-4">
-            <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Forest Trail" class="w-full h-full object-cover"/>
+            <img id="img_ev_trail" data-media-id="ev_trail" src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Forest Trail" class="w-full h-full object-cover"/>
           </div>
           <div class="text-[11px] font-mono font-bold text-[#c8a364] uppercase tracking-wider">MAY 17</div>
           <h4 class="font-cinzel text-base font-bold text-white mt-1">Eco Trail Exploration</h4>
@@ -326,7 +341,7 @@
 
         <div class="glass-card rounded-2xl p-5 border border-white/10 hover:border-[#c8a364]/40 transition-all">
           <div class="aspect-[16/10] overflow-hidden rounded-xl mb-4">
-            <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=600&q=80" alt="Quiz" class="w-full h-full object-cover"/>
+            <img id="img_ev_quiz" data-media-id="ev_quiz" src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=600&q=80" alt="Quiz" class="w-full h-full object-cover"/>
           </div>
           <div class="text-[11px] font-mono font-bold text-[#c8a364] uppercase tracking-wider">MAY 24</div>
           <h4 class="font-cinzel text-base font-bold text-white mt-1">Quiz Competition</h4>
@@ -337,7 +352,7 @@
     </section>
 
     <!-- SECTION 04: GALLERY -->
-    <section id="gallery" class="py-28 border-t border-white/5 max-w-7xl mx-auto px-6">
+    <section id="gallery" class="draggable-section py-28 border-t border-white/5 max-w-7xl mx-auto px-6" data-section-id="sec_gallery">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div>
           <span class="text-xs font-mono uppercase tracking-[0.25em] text-[#c8a364]">04 / GALLERY</span>
@@ -351,16 +366,16 @@
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="overflow-hidden rounded-xl border border-white/10 aspect-square group">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Marine ecosystem"/>
+          <img id="img_gal_1" data-media-id="gal_ocean" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Marine coastline"/>
         </div>
         <div class="overflow-hidden rounded-xl border border-white/10 aspect-square group">
-          <img src="https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Butterfly macro"/>
+          <img id="img_gal_2" data-media-id="gal_butterfly" src="https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Butterfly macro"/>
         </div>
         <div class="overflow-hidden rounded-xl border border-white/10 aspect-square group">
-          <img src="https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Forest foliage"/>
+          <img id="img_gal_3" data-media-id="gal_foliage" src="https://images.unsplash.com/photo-1500485035595-cbe6f645feb1?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Forest foliage"/>
         </div>
         <div class="overflow-hidden rounded-xl border border-white/10 aspect-square group">
-          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fauna"/>
+          <img id="img_gal_4" data-media-id="gal_biolum" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fauna"/>
         </div>
       </div>
     </section>
@@ -370,7 +385,6 @@
   <!-- ================= FOOTER ================= -->
   <footer id="contact" class="border-t border-white/10 py-12 px-6 bg-[#070707]">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      
       <div class="flex items-center gap-3">
         <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center bg-white/5">
           <svg class="w-4 h-4 text-[#c8a364]" fill="currentColor" viewBox="0 0 24 24">
@@ -397,8 +411,7 @@
 
   <!-- ================= AUTHENTICATION MODAL ================= -->
   <div id="loginModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="w-full max-w-sm glass-panel p-8 rounded-3xl border border-white/10 relative shadow-2xl">
-      
+    <div class="w-full max-w-sm glass-panel p-8 rounded-3xl border border-white/10 relative shadow-2xl animate-modal">
       <button id="closeLoginModalBtn" class="absolute top-5 right-5 text-neutral-400 hover:text-white text-lg">&times;</button>
       
       <div class="text-center mb-6">
@@ -414,13 +427,13 @@
       <form id="adminLoginForm" class="space-y-4">
         <div>
           <label class="block text-[11px] font-mono text-neutral-400 uppercase tracking-widest mb-1.5">Username</label>
-          <input type="text" id="loginUsername" required placeholder="Enter username" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-[#c8a364] text-sm font-sans" />
+          <input type="text" id="loginUsername" required placeholder="Enter username" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-[#c8a364] text-sm" />
         </div>
 
         <div>
           <label class="block text-[11px] font-mono text-neutral-400 uppercase tracking-widest mb-1.5">Password</label>
           <div class="relative">
-            <input type="password" id="loginPassword" required placeholder="Enter password" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-[#c8a364] text-sm font-sans" />
+            <input type="password" id="loginPassword" required placeholder="Enter password" class="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-neutral-500 focus:outline-none focus:border-[#c8a364] text-sm" />
             <button type="button" id="togglePasswordVis" class="absolute right-3 top-2.5 text-neutral-400 hover:text-white text-xs">👁</button>
           </div>
         </div>
@@ -436,8 +449,8 @@
     </div>
   </div>
 
-  <!-- ================= CMS SIDEBAR ================= -->
-  <aside id="adminSidebar" class="fixed top-0 right-0 h-full w-80 max-w-[90vw] bg-[#0c0d10] border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col justify-between">
+  <!-- ================= ADMIN CMS SIDEBAR (Canva Style) ================= -->
+  <aside id="adminSidebar" class="fixed top-0 right-0 h-full w-84 max-w-[90vw] bg-[#0c0d10] border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 shadow-2xl flex flex-col justify-between">
     <div class="p-6 border-b border-white/10 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -447,15 +460,41 @@
     </div>
 
     <div class="p-6 space-y-6 overflow-y-auto flex-1 text-xs">
+      
+      <!-- Connection Status -->
       <div class="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
         <span class="text-neutral-400">Database:</span>
-        <span id="syncStatusBadge" class="font-mono text-emerald-400">Connecting...</span>
+        <span id="syncStatusBadge" class="font-mono text-emerald-400">Supabase Connected</span>
       </div>
 
-      <div class="p-3 rounded-xl bg-[#c8a364]/10 border border-[#c8a364]/20 text-[#c8a364] leading-relaxed">
-        💡 <strong>Live Visual Mode:</strong> Click any text on the website directly to edit it. When finished, hit <strong>Save to Supabase ☁</strong> below.
+      <!-- Quick Action: Image Library Manager & Downloader -->
+      <div class="p-4 rounded-xl bg-[#c8a364]/10 border border-[#c8a364]/30 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-[#c8a364] uppercase tracking-wider text-[11px]">Media Assets Hub</span>
+          <span class="text-[10px] text-white bg-[#c8a364]/30 px-1.5 py-0.5 rounded">12 Images</span>
+        </div>
+        <p class="text-neutral-300 text-[11px] leading-relaxed">
+          View, download original high-res wildlife images, or swap any image with a new link.
+        </p>
+        <button id="openMediaManagerBtn" class="w-full mt-2 py-2.5 px-3 bg-[#c8a364] hover:bg-[#e0b875] text-black font-bold uppercase tracking-wider text-[11px] rounded-lg transition-all flex items-center justify-center gap-2">
+          <span>🖼️</span> Open Media Library & Downloader
+        </button>
       </div>
 
+      <!-- Live Editing Note -->
+      <div class="p-3 rounded-xl bg-white/5 border border-white/10 text-neutral-300 leading-relaxed">
+        💡 <strong>Live Visual Mode:</strong> Click any text on the website directly to edit it. Drag sections using the handles below to reorder your page.
+      </div>
+
+      <!-- Drag & Drop Section Reorder -->
+      <div>
+        <label class="block font-bold text-neutral-300 uppercase tracking-wider mb-2">Drag Sections to Reorder</label>
+        <div id="sectionReorderList" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Change Background Preset -->
       <div>
         <label class="block font-bold text-neutral-300 uppercase tracking-wider mb-2">Change Hero Background</label>
         <select id="heroBgSelect" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c8a364]">
@@ -467,6 +506,7 @@
       </div>
     </div>
 
+    <!-- Actions -->
     <div class="p-6 border-t border-white/10 space-y-3 bg-[#0a0a0d]">
       <button id="saveSupabaseBtn" class="w-full py-3 bg-[#c8a364] hover:bg-[#e0b875] text-black font-bold uppercase tracking-wider text-xs rounded-xl shadow-lg transition-all">
         Save to Supabase ☁
@@ -477,6 +517,62 @@
     </div>
   </aside>
 
+  <!-- ================= MEDIA ASSETS & DOWNLOAD MODAL ================= -->
+  <div id="mediaManagerModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="w-full max-w-4xl glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 relative shadow-2xl max-h-[90vh] flex flex-col animate-modal">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <div>
+          <h3 class="font-cinzel text-2xl font-bold text-white flex items-center gap-2">
+            <span>🖼️</span> MIZT Media & Asset Hub
+          </h3>
+          <p class="text-xs text-neutral-400 mt-1">Download original website images, replace any picture with your own URL, or upload new assets.</p>
+        </div>
+        <button id="closeMediaModalBtn" class="text-neutral-400 hover:text-white text-2xl px-2">&times;</button>
+      </div>
+
+      <!-- Add New Custom Image URL Box -->
+      <div class="py-4 border-b border-white/10 flex flex-col sm:flex-row gap-3 items-center">
+        <input type="text" id="customImgUrlInput" placeholder="Paste custom image URL (e.g. from Google Drive, Unsplash, Imgur)..." class="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-[#c8a364]" />
+        <select id="targetImgSlotSelect" class="w-full sm:w-60 px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-[#c8a364]">
+          <option value="img_hero">Hero Background (Leopard)</option>
+          <option value="img_lab">About Us: Lab Microscopy</option>
+          <option value="img_elephants">About Us: Elephants</option>
+          <option value="img_frog">About Us: Tree Frog</option>
+          <option value="img_marine_field">About Us: Marine Field</option>
+          <option value="img_res_wildlife">Research: Wildlife</option>
+          <option value="img_res_marine">Research: Marine Life</option>
+          <option value="img_res_genetics">Research: Genetics</option>
+          <option value="img_res_conservation">Research: Conservation</option>
+          <option value="img_ev_turtle">Events: Sea Turtle</option>
+          <option value="img_ev_lab">Events: Lab Session</option>
+          <option value="img_ev_trail">Events: Eco Trail</option>
+          <option value="img_ev_quiz">Events: Quiz Competition</option>
+        </select>
+        <button id="applyNewImageBtn" class="w-full sm:w-auto px-5 py-2 bg-[#c8a364] hover:bg-[#e0b875] text-black font-bold uppercase tracking-wider text-xs rounded-xl whitespace-nowrap transition-all">
+          Apply Image
+        </button>
+      </div>
+
+      <!-- Grid of all images on website -->
+      <div class="overflow-y-auto flex-1 py-4 pr-1">
+        <div id="mediaGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Populated by JavaScript with all current website images -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
+        <span>Click <strong>💾 Download</strong> to save image file directly to your computer.</span>
+        <button id="closeMediaModalBtn2" class="px-5 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all">
+          Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Notification Toast -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-[#16181d] border border-[#c8a364] text-white px-5 py-3 rounded-xl shadow-2xl text-xs flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300">
     <span class="text-base text-[#c8a364]">✓</span>
@@ -485,7 +581,7 @@
 
   <!-- ================= JAVASCRIPT ================= -->
   <script>
-    // 1. SUPABASE CLIENT WITH YOUR EXACT CREDENTIALS
+    // 1. SUPABASE CLIENT
     const SUPABASE_URL = "https://zqrkxbzreocpzbdqdtkg.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_lAJn8QayYlyQxgktg3QbnA_OjnQPxN1";
 
@@ -548,8 +644,10 @@
           el.setAttribute("contenteditable", "true");
           el.setAttribute("spellcheck", "false");
         });
+        
+        buildReorderList();
         adminSidebar.classList.remove("translate-x-full");
-        showToast("Logged in! Click any text on the page to edit.");
+        showToast("Logged in! Click any text to edit directly.");
       } else {
         loginErrorMsg.classList.remove("hidden");
       }
@@ -572,7 +670,140 @@
       showToast("Logged out of Admin Portal");
     });
 
-    // 3. FETCH AND SYNC WITH SUPABASE
+    // 3. MEDIA MANAGER & DOWNLOAD ASSETS
+    const mediaManagerModal = document.getElementById("mediaManagerModal");
+    const openMediaManagerBtn = document.getElementById("openMediaManagerBtn");
+    const closeMediaModalBtn = document.getElementById("closeMediaModalBtn");
+    const closeMediaModalBtn2 = document.getElementById("closeMediaModalBtn2");
+    const mediaGrid = document.getElementById("mediaGrid");
+    const applyNewImageBtn = document.getElementById("applyNewImageBtn");
+    const customImgUrlInput = document.getElementById("customImgUrlInput");
+    const targetImgSlotSelect = document.getElementById("targetImgSlotSelect");
+
+    openMediaManagerBtn.addEventListener("click", () => {
+      populateMediaGrid();
+      mediaManagerModal.classList.remove("hidden");
+      mediaManagerModal.classList.add("flex");
+    });
+
+    closeMediaModalBtn.addEventListener("click", () => {
+      mediaManagerModal.classList.add("hidden");
+      mediaManagerModal.classList.remove("flex");
+    });
+
+    closeMediaModalBtn2.addEventListener("click", () => {
+      mediaManagerModal.classList.add("hidden");
+      mediaManagerModal.classList.remove("flex");
+    });
+
+    // Master Catalog of Website Assets
+    const websiteImages = [
+      { id: "img_hero", label: "Hero Background (Predator Leopard)", category: "Hero" },
+      { id: "img_lab", label: "About Us: Microscopy Lab", category: "About" },
+      { id: "img_elephants", label: "About Us: African Elephants", category: "About" },
+      { id: "img_frog", label: "About Us: Tree Frog Specimen", category: "About" },
+      { id: "img_marine_field", label: "About Us: Marine Field Mammals", category: "About" },
+      { id: "img_res_wildlife", label: "Research: Wildlife Behavior (Lion)", category: "Research" },
+      { id: "img_res_marine", label: "Research: Deep Ocean Jellyfish", category: "Research" },
+      { id: "img_res_genetics", label: "Research: Genetics & Molecular Biology", category: "Research" },
+      { id: "img_res_conservation", label: "Research: Species Conservation (Chameleon)", category: "Research" },
+      { id: "img_ev_turtle", label: "Events: Sea Turtle Conservation", category: "Events" },
+      { id: "img_ev_lab", label: "Events: Hands-on Lab Session", category: "Events" },
+      { id: "img_ev_trail", label: "Events: Eco Trail Exploration", category: "Events" },
+      { id: "img_ev_quiz", label: "Events: The Wild Mind Arena Quiz", category: "Events" },
+      { id: "img_gal_1", label: "Gallery: Marine Ecosystem Coast", category: "Gallery" },
+      { id: "img_gal_2", label: "Gallery: Butterfly Macro Flora", category: "Gallery" },
+      { id: "img_gal_3", label: "Gallery: Rainforest Foliage", category: "Gallery" },
+      { id: "img_gal_4", label: "Gallery: Bioluminescent Species", category: "Gallery" }
+    ];
+
+    function populateMediaGrid() {
+      mediaGrid.innerHTML = "";
+
+      websiteImages.forEach(item => {
+        const imgElement = document.getElementById(item.id);
+        const currentSrc = imgElement ? imgElement.src : "";
+
+        const card = document.createElement("div");
+        card.className = "p-3 rounded-2xl bg-white/5 border border-white/10 flex flex-col justify-between hover:border-[#c8a364]/60 transition-all";
+        
+        card.innerHTML = `
+          <div>
+            <div class="aspect-[16/10] overflow-hidden rounded-xl bg-neutral-900 border border-white/5 mb-3">
+              <img src="${currentSrc}" alt="${item.label}" class="w-full h-full object-cover"/>
+            </div>
+            <div class="text-[10px] text-[#c8a364] font-mono uppercase tracking-wider">${item.category}</div>
+            <h5 class="text-xs font-bold text-white mt-0.5 line-clamp-1">${item.label}</h5>
+          </div>
+
+          <div class="pt-3 mt-2 border-t border-white/5 flex items-center justify-between gap-2">
+            <!-- Download Button -->
+            <button onclick="downloadImageFile('${currentSrc}', '${item.id}.jpg')" class="flex-1 py-1.5 px-2 bg-white/10 hover:bg-white/20 text-white text-[11px] rounded-lg font-medium transition-all flex items-center justify-center gap-1.5">
+              <span>💾</span> Download
+            </button>
+            
+            <!-- Replace Prompt Button -->
+            <button onclick="promptReplaceSingleImage('${item.id}')" class="flex-1 py-1.5 px-2 bg-[#c8a364]/20 hover:bg-[#c8a364]/30 text-[#c8a364] text-[11px] rounded-lg font-medium transition-all flex items-center justify-center gap-1.5 border border-[#c8a364]/30">
+              <span>🔄</span> Replace
+            </button>
+          </div>
+        `;
+        mediaGrid.appendChild(card);
+      });
+    }
+
+    // Direct image file download via blob fetch
+    window.downloadImageFile = async function(url, filename) {
+      showToast("Downloading image...");
+      try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const objectUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename || 'mizt-wildlife-photo.jpg';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(objectUrl);
+        document.body.removeChild(a);
+        showToast("Image downloaded successfully!");
+      } catch (err) {
+        // Fallback for CORS: open in new tab for direct right-click save
+        window.open(url, '_blank');
+        showToast("Opened full image in new tab to save!");
+      }
+    };
+
+    // Quick replace single image
+    window.promptReplaceSingleImage = function(elementId) {
+      const target = document.getElementById(elementId);
+      if (!target) return;
+      const newUrl = prompt("Enter new Image URL:", target.src);
+      if (newUrl && newUrl.trim() !== "") {
+        target.src = newUrl.trim();
+        populateMediaGrid();
+        showToast("Image replaced! Remember to click Save to Supabase.");
+      }
+    };
+
+    // Apply custom image from URL input in top of modal
+    applyNewImageBtn.addEventListener("click", () => {
+      const url = customImgUrlInput.value.trim();
+      const slotId = targetImgSlotSelect.value;
+      if (!url) {
+        alert("Please enter a valid image URL first");
+        return;
+      }
+      const target = document.getElementById(slotId);
+      if (target) {
+        target.src = url;
+        customImgUrlInput.value = "";
+        populateMediaGrid();
+        showToast("Applied new image to " + slotId + "! Remember to Save.");
+      }
+    });
+
+    // 4. SUPABASE PERSISTENCE (FETCH & SAVE EVERYTHING)
     async function loadContentFromSupabase() {
       const statusBadge = document.getElementById("syncStatusBadge");
       
@@ -600,12 +831,17 @@
       saveSupabaseBtn.innerText = "Saving to Cloud...";
       
       const contentPayload = {};
+      
+      // Save all editable text
       document.querySelectorAll("[data-cms-key]").forEach(el => {
         contentPayload[el.getAttribute("data-cms-key")] = el.innerHTML.trim();
       });
 
-      const heroImg = document.getElementById("heroImageElement");
-      if (heroImg) contentPayload.hero_img = heroImg.src;
+      // Save all current image URLs
+      websiteImages.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (el) contentPayload[item.id] = el.src;
+      });
 
       localStorage.setItem("mizt_site_content", JSON.stringify(contentPayload));
 
@@ -632,21 +868,44 @@
     saveSupabaseBtn.addEventListener("click", saveContentToSupabase);
 
     function applySiteData(content) {
+      // Restore text
       Object.keys(content).forEach(key => {
         const el = document.querySelector(`[data-cms-key="${key}"]`);
         if (el) el.innerHTML = content[key];
       });
-      if (content.hero_img) {
-        const heroImg = document.getElementById("heroImageElement");
-        if (heroImg) heroImg.src = content.hero_img;
-      }
+
+      // Restore images
+      websiteImages.forEach(item => {
+        if (content[item.id]) {
+          const el = document.getElementById(item.id);
+          if (el) el.src = content[item.id];
+        }
+      });
     }
 
-    // Hero background selector
+    // Hero background selector in sidebar
     document.getElementById("heroBgSelect").addEventListener("change", (e) => {
-      const heroImg = document.getElementById("heroImageElement");
+      const heroImg = document.getElementById("img_hero");
       if (heroImg) heroImg.src = e.target.value;
     });
+
+    // 5. DRAG & DROP SECTION REORDERING
+    function buildReorderList() {
+      const container = document.getElementById("sectionsContainer");
+      const list = document.getElementById("sectionReorderList");
+      list.innerHTML = "";
+
+      const sections = container.querySelectorAll(".draggable-section");
+      sections.forEach((sec, idx) => {
+        const item = document.createElement("div");
+        item.className = "flex items-center justify-between p-2 rounded bg-white/5 border border-white/10 text-white text-[11px] cursor-grab hover:border-[#c8a364]";
+        item.innerHTML = `
+          <span class="font-mono uppercase">${sec.id.replace('sec_', '')} Section</span>
+          <span class="text-neutral-500">⠿</span>
+        `;
+        list.appendChild(item);
+      });
+    }
 
     function showToast(msg) {
       const toast = document.getElementById("toastNotification");
@@ -658,7 +917,7 @@
       }, 3500);
     }
 
-    // Auto-fetch on page start
+    // Auto-fetch from cloud database on start
     document.addEventListener("DOMContentLoaded", loadContentFromSupabase);
   </script>
 
